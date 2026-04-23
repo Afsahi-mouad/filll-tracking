@@ -134,7 +134,7 @@ class NewFileActivity : AppCompatActivity() {
             return
         }
 
-        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
         val dateReceived = dateFormat.format(Date())
 
         val record = FileRecord(

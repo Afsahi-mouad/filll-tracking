@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -43,6 +45,18 @@ import com.example.filltracking2.data.FileRecord
 import com.example.filltracking2.ui.theme.StatusUrgent
 import com.example.filltracking2.ui.viewmodel.FileViewModel
 import java.io.File
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
+// Helper to format date consistent with HistoryScreen parsing
+fun formatDate(millis: Long): String {
+    val date = Instant.ofEpochMilli(millis)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+    return date.format(DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.ENGLISH))
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +77,58 @@ fun NewFileScreen(
     var dateReceivedGov by remember { mutableStateOf(today) }
     var dateRegistered by remember { mutableStateOf(today) }
     var dateDeliveredToDomain by remember { mutableStateOf(today) }
+
+    // --- DATE PICKER STATES ---
+    var showReceivedPicker by remember { mutableStateOf(false) }
+    var showDeliveredPicker by remember { mutableStateOf(false) }
+
+    val receivedPickerState = rememberDatePickerState(
+        initialSelectedDateMillis = System.currentTimeMillis()
+    )
+    val deliveredPickerState = rememberDatePickerState(
+        initialSelectedDateMillis = System.currentTimeMillis()
+    )
+
+    // Update date strings whenever picker selection changes
+    LaunchedEffect(receivedPickerState.selectedDateMillis) {
+        receivedPickerState.selectedDateMillis?.let {
+            dateReceivedGov = formatDate(it)
+        }
+    }
+    LaunchedEffect(deliveredPickerState.selectedDateMillis) {
+        deliveredPickerState.selectedDateMillis?.let {
+            dateDeliveredToDomain = formatDate(it)
+        }
+    }
+
+    // --- DATE PICKER DIALOGS ---
+    if (showReceivedPicker) {
+        DatePickerDialog(
+            onDismissRequest = { showReceivedPicker = false },
+            confirmButton = {
+                TextButton(onClick = { showReceivedPicker = false }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showReceivedPicker = false }) { Text("Cancel") }
+            }
+        ) {
+            DatePicker(state = receivedPickerState)
+        }
+    }
+
+    if (showDeliveredPicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDeliveredPicker = false },
+            confirmButton = {
+                TextButton(onClick = { showDeliveredPicker = false }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeliveredPicker = false }) { Text("Cancel") }
+            }
+        ) {
+            DatePicker(state = deliveredPickerState)
+        }
+    }
 
     // Attachments state — stores lightweight metadata + URI
     var attachments by remember { mutableStateOf<List<Attachment>>(emptyList()) }
@@ -197,24 +263,55 @@ fun NewFileScreen(
             )
 
             // Dates Section
-            Text("Tracking Dates", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+            Text("Tracking Dates", 
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
             
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 OutlinedTextField(
                     value = dateReceivedGov,
-                    onValueChange = { dateReceivedGov = it },
-                    label = { Text("Received Gov") },
-                    modifier = Modifier.weight(1f),
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Received (Gov)") },
+                    trailingIcon = {
+                        IconButton(onClick = { showReceivedPicker = true }) {
+                            Icon(Icons.Default.CalendarMonth, contentDescription = "Pick date")
+                        }
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { showReceivedPicker = true },
                     shape = RoundedCornerShape(12.dp)
                 )
                 OutlinedTextField(
                     value = dateDeliveredToDomain,
-                    onValueChange = { dateDeliveredToDomain = it },
+                    onValueChange = {},
+                    readOnly = true,
                     label = { Text("Delivered Sector") },
-                    modifier = Modifier.weight(1f),
+                    trailingIcon = {
+                        IconButton(onClick = { showDeliveredPicker = true }) {
+                            Icon(Icons.Default.CalendarMonth, contentDescription = "Pick date")
+                        }
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { showDeliveredPicker = true },
                     shape = RoundedCornerShape(12.dp)
                 )
             }
+
+            // dateRegistered is always today - show it as read-only info
+            OutlinedTextField(
+                value = dateRegistered,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Registered in App") },
+                enabled = false,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
 
             // Recipient & Subject
             OutlinedTextField(

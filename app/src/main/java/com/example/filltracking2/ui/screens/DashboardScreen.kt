@@ -80,26 +80,28 @@ fun DashboardScreen(
     val allSectors = listOf("Finance", "Legal", "HR", "Operations", "Technical", "Security", "Admin")
     var selectedSectorTab by remember { mutableStateOf(allSectors[2]) } // Default to HR
     
-    val filteredRecords = records.filter { record ->
-        val fullQuery = "$selectedYear/$searchQuery"
-        val matchesSearch = searchQuery.isEmpty() ||
-            record.internalSerial.contains(fullQuery, ignoreCase = true) ||
-            record.originalSerial.contains(fullQuery, ignoreCase = true) ||
-            record.recipientName.contains(searchQuery, ignoreCase = true) ||
-            record.subject.contains(searchQuery, ignoreCase = true)
-        
-        val matchesFilter = if (currentView == "Sector view") {
-            record.sectors.contains(selectedSectorTab)
-        } else {
-            when (selectedFilter) {
-                "Urgent" -> record.urgency == "Urgent"
-                "Pending" -> record.status == "Pending"
-                "Received" -> record.status == "Received"
-                else -> true
+    val filteredRecords = remember(records, searchQuery, selectedFilter, currentView, selectedSectorTab, selectedYear) {
+        records.filter { record ->
+            val matchesSearch = searchQuery.isEmpty() ||
+                record.internalSerial.contains("$selectedYear/$searchQuery", ignoreCase = true) ||
+                record.originalSerial.contains(searchQuery, ignoreCase = true) ||
+                record.recipientName.contains(searchQuery, ignoreCase = true) ||
+                record.subject.contains(searchQuery, ignoreCase = true)
+            
+            val matchesFilter = if (currentView == "Sector view") {
+                record.sectors.contains(selectedSectorTab)
+            } else {
+                when (selectedFilter) {
+                    "Urgent" -> record.urgency == "Urgent"
+                    "Pending" -> record.status == "Pending"
+                    "Received" -> record.status == "Received"
+                    "Processed" -> record.status == "Processed"
+                    else -> true
+                }
             }
+            
+            matchesSearch && matchesFilter
         }
-        
-        matchesSearch && matchesFilter
     }
     
     val stats = remember(records) {

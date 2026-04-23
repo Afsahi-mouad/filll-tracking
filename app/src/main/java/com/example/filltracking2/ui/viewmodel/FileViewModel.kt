@@ -125,7 +125,7 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         fun getCurrentDate(): String {
-            val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+            val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
             return sdf.format(Date())
         }
     }

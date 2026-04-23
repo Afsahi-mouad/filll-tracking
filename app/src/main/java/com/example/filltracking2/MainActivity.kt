@@ -23,7 +23,9 @@ class MainActivity : ComponentActivity() {
         // Check for pending records from NewFileActivity (Bug 1 & 2 fix)
         val record = FileRecordRepository.pendingRecord
         if (record != null) {
-            FileRecordRepository.addRecordAtStart(record)
+            val repository = FileRecordRepository(this)
+            repository.saveRecord(record) // Save to disk (Bug 3 fix)
+            FileRecordRepository.addRecordAtStart(record) // Update UI
             FileRecordRepository.pendingRecord = null
         }
     }

@@ -1,5 +1,6 @@
 package com.example.filltracking2
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.filltracking2.data.FileRecordRepository
 import com.example.filltracking2.ui.screens.DashboardScreen
 import com.example.filltracking2.ui.screens.FileDetailScreen
 import com.example.filltracking2.ui.screens.HistoryScreen
@@ -146,7 +148,8 @@ fun FillTrackingApp() {
                     DashboardScreen(
                         viewModel = fileViewModel,
                         onFileClick = { record ->
-                            navController.navigate("file_detail/${record.internalSerial}")
+                            val encoded = Uri.encode(record.internalSerial)
+                            navController.navigate("file_detail/$encoded")
                         }
                     )
                 }
@@ -154,7 +157,8 @@ fun FillTrackingApp() {
                     HistoryScreen(
                         viewModel = fileViewModel,
                         onFileClick = { record ->
-                            navController.navigate("file_detail/${record.internalSerial}")
+                            val encoded = Uri.encode(record.internalSerial)
+                            navController.navigate("file_detail/$encoded")
                         }
                     )
                 }
@@ -172,8 +176,9 @@ fun FillTrackingApp() {
                     arguments = listOf(navArgument("serial") { type = NavType.StringType })
                 ) { backStackEntry ->
                     val serial = backStackEntry.arguments?.getString("serial") ?: ""
+                    val decodedSerial = Uri.decode(serial)
                     FileDetailScreen(
-                        serial = serial,
+                        serial = decodedSerial,
                         viewModel = fileViewModel,
                         onNavigateBack = { navController.popBackStack() }
                     )

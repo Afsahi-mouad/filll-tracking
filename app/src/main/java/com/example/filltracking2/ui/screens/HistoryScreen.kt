@@ -89,14 +89,19 @@ fun HistoryScreen(
     val coroutineScope = rememberCoroutineScope()
     val visibleMonth = state.firstVisibleMonth.yearMonth
     
-    // Group records by date for easy lookup
+    // Group records by date for easy lookup (Fix: use dateRegistered and handle single-digit days)
     val recordsByDate = remember(allRecords) {
-        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.getDefault())
+        val formatterPadded = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH)
+        val formatterShort = DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.ENGLISH)
         allRecords.groupBy { 
             try {
-                LocalDate.parse(it.dateReceivedGov, formatter)
+                LocalDate.parse(it.dateRegistered, formatterPadded)
             } catch (e: Exception) {
-                null
+                try {
+                    LocalDate.parse(it.dateRegistered, formatterShort)
+                } catch (e2: Exception) {
+                    null
+                }
             }
         }
     }
