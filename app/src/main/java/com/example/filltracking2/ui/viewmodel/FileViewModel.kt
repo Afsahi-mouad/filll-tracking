@@ -19,8 +19,7 @@ import java.util.Locale
 class FileViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = FileRecordRepository(application)
-    private val _records = MutableStateFlow<List<FileRecord>>(emptyList())
-    val records: StateFlow<List<FileRecord>> = _records.asStateFlow()
+    val records: StateFlow<List<FileRecord>> = FileRecordRepository.recordsFlow
 
     // Error state for UI to observe
     private val _saveError = MutableStateFlow<String?>(null)
@@ -39,7 +38,7 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val saved = repository.loadRecords()
                 if (saved.isNotEmpty()) {
-                    _records.value = saved
+                    FileRecordRepository.updateRecords(saved)
                 } else if (!repository.hasAnySavedRecords()) {
                     // ONLY load mock data if this is truly the first run
                     val mockData = listOf(
@@ -70,13 +69,11 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
                             notes = "Check the AC unit"
                         )
                     )
-                    _records.value = mockData
+                    FileRecordRepository.updateRecords(mockData)
                     repository.saveRecords(mockData)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                // Do NOT reset _records.value to empty if there was an exception,
-                // keep whatever we have in memory.
                 withContext(Dispatchers.Main) {
                     _saveError.value = "Error loading history: ${e.localizedMessage}"
                 }
@@ -85,14 +82,20 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * Refresh records from the in-memory repository.
+     * (Deprecated: recordsFlow is now automatic)
+     */
+    fun refreshRecords() {
+        // No longer needed but kept for compatibility
+    }
+
+    /**
      * Add a new record and persist immediately.
      * Persistence happens on a background thread to prevent UI lag or crash.
      */
     fun addRecord(record: FileRecord) {
-        // Optimistic UI update
-        _records.update { currentList ->
-            listOf(record) + currentList
-        }
+        // Update in-memory repository (and UI via Flow)
+        FileRecordRepository.addRecordAtStart(record)
         
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -113,7 +116,7 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getRecordBySerial(serial: String): FileRecord? {
-        return _records.value.find { it.internalSerial == serial || it.originalSerial == serial }
+        return records.value.find { it.internalSerial == serial || it.originalSerial == serial }
     }
 
     fun clearSaveError() {

@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import com.example.filltracking2.data.Attachment
 import com.example.filltracking2.data.AttachmentStorage
 import com.example.filltracking2.data.FileRecord
+import com.example.filltracking2.data.FileRecordRepository
 import java.io.File
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -152,9 +153,8 @@ class NewFileActivity : AppCompatActivity() {
         )
 
         try {
-            val resultIntent = Intent()
-            resultIntent.putExtra("new_record", record)
-            setResult(RESULT_OK, resultIntent)
+            FileRecordRepository.pendingRecord = record
+            setResult(RESULT_OK)
             finish()
         } catch (e: Exception) {
             e.printStackTrace()

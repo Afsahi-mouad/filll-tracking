@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 
 /**
@@ -23,6 +26,23 @@ class FileRecordRepository(private val context: Context) {
         private const val PREFS_NAME = "fill_tracking_records"
         private const val KEY_RECORDS = "records_json"
         private const val RECORDS_DIR = "app_records"
+
+        // Singleton-like in-memory store to avoid Intent size limits
+        private val _recordsFlow = MutableStateFlow<List<FileRecord>>(emptyList())
+        val recordsFlow: StateFlow<List<FileRecord>> = _recordsFlow.asStateFlow()
+        
+        val records: MutableList<FileRecord>
+            get() = _recordsFlow.value.toMutableList()
+
+        var pendingRecord: FileRecord? = null
+
+        fun updateRecords(newList: List<FileRecord>) {
+            _recordsFlow.value = newList
+        }
+
+        fun addRecordAtStart(record: FileRecord) {
+            _recordsFlow.value = listOf(record) + _recordsFlow.value
+        }
     }
 
     private fun getRecordsDir(): File {

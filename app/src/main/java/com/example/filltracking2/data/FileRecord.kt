@@ -9,7 +9,7 @@ data class Attachment(
     val name: String,
     val type: String,
     val size: Long,
-    val uri: String
+    val path: String
 ) : Parcelable
 
 @Parcelize

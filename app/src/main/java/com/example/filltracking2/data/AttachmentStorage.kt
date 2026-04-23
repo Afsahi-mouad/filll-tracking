@@ -62,7 +62,7 @@ object AttachmentStorage {
                 name = fileName,
                 type = fileType,
                 size = if (fileSize > 0) fileSize else destFile.length(),
-                uri = Uri.fromFile(destFile).toString()
+                path = destFile.absolutePath
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -83,7 +83,7 @@ object AttachmentStorage {
             name = fileName,
             type = "image/jpeg",
             size = 0, // Will be updated after photo is taken
-            uri = Uri.fromFile(file).toString()
+            path = file.absolutePath
         )
         return Pair(file, attachment)
     }
@@ -93,7 +93,7 @@ object AttachmentStorage {
      */
     fun updateAttachmentSize(attachment: Attachment): Attachment {
         return try {
-            val file = File(Uri.parse(attachment.uri).path!!)
+            val file = File(attachment.path)
             attachment.copy(size = file.length())
         } catch (e: Exception) {
             attachment
@@ -104,9 +104,8 @@ object AttachmentStorage {
      * Deletes an attachment file from internal storage.
      * Safe to call with any URI — will silently ignore non-file URIs.
      */
-    fun deleteAttachment(uri: Uri) {
+    fun deleteAttachment(path: String) {
         try {
-            val path = uri.path ?: return
             val file = File(path)
             if (file.exists()) {
                 file.delete()
@@ -119,10 +118,8 @@ object AttachmentStorage {
     /**
      * Checks if an attachment file still exists on disk.
      */
-    fun attachmentExists(uriString: String): Boolean {
+    fun attachmentExists(path: String): Boolean {
         return try {
-            val uri = Uri.parse(uriString)
-            val path = uri.path ?: return false
             File(path).exists()
         } catch (e: Exception) {
             false

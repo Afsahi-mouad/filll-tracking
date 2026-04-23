@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import com.example.filltracking2.ui.viewmodel.FileViewModel
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -127,7 +128,7 @@ fun FileDetailScreen(
                         record.attachments.forEach { attachment ->
                             // Use SubcomposeAsyncImage for better error handling and loading states
                             SubcomposeAsyncImage(
-                                model = attachment.uri,
+                                model = File(attachment.path),
                                 contentDescription = attachment.name,
                                 modifier = Modifier
                                     .fillMaxWidth()

@@ -42,6 +42,7 @@ import com.example.filltracking2.data.AttachmentStorage
 import com.example.filltracking2.data.FileRecord
 import com.example.filltracking2.ui.theme.StatusUrgent
 import com.example.filltracking2.ui.viewmodel.FileViewModel
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -265,7 +266,7 @@ fun NewFileScreen(
                             onRemove = {
                                 attachments = attachments - attachment
                                 // Clean up the file from disk
-                                AttachmentStorage.deleteAttachment(Uri.parse(attachment.uri))
+                                AttachmentStorage.deleteAttachment(attachment.path)
                             }
                         )
                     }
@@ -353,7 +354,7 @@ fun NewFileScreen(
 fun AttachmentPreview(attachment: Attachment, onRemove: () -> Unit) {
     Box(modifier = Modifier.size(80.dp)) {
         AsyncImage(
-            model = attachment.uri,
+            model = File(attachment.path),
             contentDescription = null,
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)).background(Color.LightGray),
             contentScale = ContentScale.Crop
