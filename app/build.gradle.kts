@@ -18,6 +18,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+// Updated signing config
     signingConfigs {
         create("release") {
             storeFile = file("C:/Users/oussa/Documents/mykeystore/keystore1")
