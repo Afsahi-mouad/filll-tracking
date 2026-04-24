@@ -22,6 +22,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -38,10 +41,12 @@ import com.example.filltracking2.data.FileRecordRepository
 import com.example.filltracking2.ui.screens.DashboardScreen
 import com.example.filltracking2.ui.screens.FileDetailScreen
 import com.example.filltracking2.ui.screens.HistoryScreen
+import com.example.filltracking2.ui.screens.LoginScreen
 import com.example.filltracking2.ui.screens.NewFileScreen
 import com.example.filltracking2.ui.screens.SettingsScreen
 import com.example.filltracking2.ui.theme.FillTrackingTheme
 import com.example.filltracking2.ui.viewmodel.FileViewModel
+import com.example.filltracking2.ui.theme.ThemeManager
 
 sealed class Screen(
     val route: String,
@@ -58,8 +63,19 @@ sealed class Screen(
 @Composable
 fun FillTrackingApp() {
     val fileViewModel: FileViewModel = viewModel()
+    var isLoggedIn by remember { mutableStateOf(false) }
+    var currentUserEmail by remember { mutableStateOf("") }
+    var userPassword by remember { mutableStateOf("admin") }
+
+    if (!isLoggedIn) {
+        LoginScreen(onLoginSuccess = { email ->
+            currentUserEmail = email
+            isLoggedIn = true
+        })
+        return
+    }
     
-    FillTrackingTheme {
+    FillTrackingTheme(darkTheme = ThemeManager.isDarkTheme) {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -86,7 +102,7 @@ fun FillTrackingApp() {
                                         contentDescription = screen.title
                                     )
                                 },
-                                label = { Text(screen.title) },
+                                label = { Text(ThemeManager.getString(screen.route)) },
                                 selected = selected,
                                 onClick = {
                                     navController.navigate(screen.route) {
@@ -163,7 +179,12 @@ fun FillTrackingApp() {
                     )
                 }
                 composable(Screen.Settings.route) {
-                    SettingsScreen()
+                    SettingsScreen(
+                        currentUserEmail = currentUserEmail,
+                        currentPassword = userPassword,
+                        onPasswordChanged = { userPassword = it },
+                        onSignOut = { isLoggedIn = false }
+                    )
                 }
                 composable("new_file") {
                     NewFileScreen(
