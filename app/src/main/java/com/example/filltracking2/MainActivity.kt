@@ -1,15 +1,19 @@
 package com.example.filltracking2
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.filltracking2.ui.theme.FillTrackingTheme
 import com.example.filltracking2.data.FileRecordRepository
+import com.example.filltracking2.util.PreferenceManager
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
         enableEdgeToEdge()
         setContent {
             FillTrackingTheme {

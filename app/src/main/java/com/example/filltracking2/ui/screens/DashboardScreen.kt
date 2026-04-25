@@ -21,13 +21,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.filltracking2.R
 import com.example.filltracking2.data.FileRecord
 import com.example.filltracking2.ui.theme.*
 import com.example.filltracking2.ui.viewmodel.FileViewModel
 import kotlinx.coroutines.launch
+
+private val sectorMap = mapOf(
+    "Educational Affairs" to R.string.sector_educational_affairs,
+    "Planning" to R.string.sector_planning,
+    "Orientation" to R.string.sector_orientation,
+    "Buildings" to R.string.sector_buildings,
+    "Mail Writing" to R.string.sector_mail_writing,
+    "Finance" to R.string.sector_finance_main,
+    "Information System" to R.string.sector_information_system,
+    "Exams" to R.string.sector_exams,
+    "Legal Affairs" to R.string.sector_legal_affairs,
+    "HR Management" to R.string.sector_hr_management,
+    "Inspection" to R.string.sector_inspection
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +62,7 @@ fun DashboardScreen(
     var searchQuery by remember { mutableStateOf("") }
     var selectedFilter by remember { mutableStateOf("All") }
     
-    val allSectors = listOf("Finance", "Legal", "HR", "Operations", "Technical", "Security", "Admin")
+    val allSectors = sectorMap.keys.toList()
     var selectedSectorTab by remember { mutableStateOf(allSectors[0]) } 
     
     val filteredRecords = remember(records, searchQuery, selectedFilter, currentView, selectedSectorTab, selectedYear) {
@@ -61,10 +77,9 @@ fun DashboardScreen(
                 record.sectors.contains(selectedSectorTab)
             } else {
                 when (selectedFilter) {
-                    "Urgent" -> record.urgency == "Urgent"
-                    "Pending" -> record.status == "Pending"
-                    "Received" -> record.status == "Received"
-                    "Processed" -> record.status == "Processed"
+                    "Urgent" -> record.urgency.equals("Urgent", ignoreCase = true)
+                    "Normal" -> !record.urgency.equals("Urgent", ignoreCase = true)
+                    "Received" -> record.status.equals("Received", ignoreCase = true)
                     else -> true
                 }
             }
@@ -75,9 +90,8 @@ fun DashboardScreen(
     val stats = remember(records) {
         DashboardStats(
             total = records.size,
-            urgent = records.count { it.urgency == "Urgent" },
-            processed = records.count { it.status == "Processed" },
-            pending = records.count { it.status == "Pending" }
+            urgent = records.count { it.urgency.equals("Urgent", ignoreCase = true) },
+            normal = records.count { !it.urgency.equals("Urgent", ignoreCase = true) }
         )
     }
 
@@ -90,15 +104,15 @@ fun DashboardScreen(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
-                Text("FILE TRACKER", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(R.string.file_tracker), modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.labelMedium)
                 NavigationDrawerItem(
-                    label = { Text("Director (Home)") },
+                    label = { Text(stringResource(R.string.view_director)) },
                     selected = currentView == "Director",
                     onClick = { currentView = "Director"; scope.launch { drawerState.close() } },
                     icon = { Icon(Icons.Default.Dashboard, null) }
                 )
                 NavigationDrawerItem(
-                    label = { Text("Sector View") },
+                    label = { Text(stringResource(R.string.view_sector)) },
                     selected = currentView == "Sector view",
                     onClick = { currentView = "Sector view"; scope.launch { drawerState.close() } },
                     icon = { Icon(Icons.Default.Business, null) }
@@ -109,7 +123,10 @@ fun DashboardScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(if (currentView == "Sector view") "Sector Dashboard" else ThemeManager.getString("home"), fontWeight = FontWeight.Bold) },
+                    title = { 
+                        val title = if (currentView == "Sector view") stringResource(R.string.sector_dashboard) else stringResource(R.string.home)
+                        Text(title, fontWeight = FontWeight.Bold) 
+                    },
                     navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(Icons.Default.Menu, "Menu")
@@ -144,11 +161,11 @@ fun DashboardScreen(
                             }
                         }
                     ) {
-                        allSectors.forEach { sector ->
+                        allSectors.forEach { sectorKey ->
                             Tab(
-                                selected = selectedSectorTab == sector,
-                                onClick = { selectedSectorTab = sector },
-                                text = { Text(sector) }
+                                selected = selectedSectorTab == sectorKey,
+                                onClick = { selectedSectorTab = sectorKey },
+                                text = { Text(stringResource(sectorMap[sectorKey]!!)) }
                             )
                         }
                     }
@@ -201,10 +218,36 @@ fun DashboardScreen(
                         }
                         item {
                             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(vertical = 8.dp)) {
-                                item { StatCard("Total", stats.total, Icons.Outlined.CheckCircle, MaterialTheme.colorScheme.primary, selectedFilter == "All") { selectedFilter = "All" } }
-                                item { StatCard("Urgent", stats.urgent, Icons.Outlined.ErrorOutline, StatusUrgent, selectedFilter == "Urgent") { selectedFilter = "Urgent" } }
-                                item { StatCard("Processed", stats.processed, Icons.Outlined.CheckCircle, StatusProcessed, selectedFilter == "Processed") { selectedFilter = "Processed" } }
-                                item { StatCard("Pending", stats.pending, Icons.Outlined.Schedule, StatusPending, selectedFilter == "Pending") { selectedFilter = "Pending" } }
+                                item { 
+                                    StatCard(
+                                        title = stringResource(R.string.total), 
+                                        count = stats.total, 
+                                        icon = Icons.Outlined.CheckCircle, 
+                                        color = MaterialTheme.colorScheme.primary, 
+                                        isSelected = selectedFilter == "All",
+                                        onClick = { selectedFilter = "All" }
+                                    ) 
+                                }
+                                item { 
+                                    StatCard(
+                                        title = stringResource(R.string.urgent), 
+                                        count = stats.urgent, 
+                                        icon = Icons.Outlined.ErrorOutline, 
+                                        color = StatusUrgent, 
+                                        isSelected = selectedFilter == "Urgent",
+                                        onClick = { selectedFilter = "Urgent" }
+                                    ) 
+                                }
+                                item { 
+                                    StatCard(
+                                        title = stringResource(R.string.normal), 
+                                        count = stats.normal, 
+                                        icon = Icons.Outlined.CheckCircle, 
+                                        color = StatusProcessed, 
+                                        isSelected = selectedFilter == "Normal",
+                                        onClick = { selectedFilter = "Normal" }
+                                    ) 
+                                }
                             }
                         }
                     }
@@ -217,7 +260,7 @@ fun DashboardScreen(
     }
 }
 
-data class DashboardStats(val total: Int, val urgent: Int, val processed: Int, val pending: Int)
+data class DashboardStats(val total: Int, val urgent: Int, val normal: Int)
 
 @Composable
 fun StatCard(title: String, count: Int, icon: ImageVector, color: Color, isSelected: Boolean, onClick: () -> Unit) {
@@ -251,8 +294,12 @@ fun FileCard(record: FileRecord, onClick: () -> Unit) {
         Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(when (record.status) { "Received" -> StatusReceived; "Pending" -> StatusPending; "Processed" -> StatusProcessed; else -> Color.Gray }))
-                    Text("Original: ${record.originalSerial}", style = MaterialTheme.typography.labelMedium)
+                    val statusColor = when (record.status) {
+                        "Processed" -> StatusProcessed
+                        else -> StatusReceived
+                    }
+                    Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(statusColor))
+                    Text("${stringResource(R.string.original_serial_label)}: ${record.originalSerial}", style = MaterialTheme.typography.labelMedium)
                 }
                 StatusPill(status = record.status, urgency = record.urgency)
             }
@@ -262,9 +309,11 @@ fun FileCard(record: FileRecord, onClick: () -> Unit) {
             Spacer(modifier = Modifier.height(12.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    record.sectors.take(2).forEach { sector ->
+                    record.sectors.take(2).forEach { sectorKey ->
                         Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(8.dp)) {
-                            Text(sector, modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp), style = MaterialTheme.typography.labelSmall)
+                            val resId = sectorMap[sectorKey]
+                            val label = if (resId != null) stringResource(resId) else sectorKey
+                            Text(label, modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp), style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }
@@ -281,16 +330,16 @@ fun FileCard(record: FileRecord, onClick: () -> Unit) {
 
 @Composable
 fun StatusPill(status: String, urgency: String) {
+    val displayStatus = if (status == "Pending") "Received" else status
     val (bgColor, txtColor, icon) = when {
         urgency == "Urgent" -> Triple(StatusUrgent.copy(alpha = 0.15f), StatusUrgent, Icons.Outlined.ErrorOutline)
-        status == "Processed" -> Triple(StatusProcessed.copy(alpha = 0.15f), StatusProcessed, Icons.Outlined.CheckCircle)
-        status == "Pending" -> Triple(StatusPending.copy(alpha = 0.15f), StatusPending, Icons.Outlined.Schedule)
-        else -> Triple(StatusReceived.copy(alpha = 0.15f), StatusReceived, Icons.Outlined.Pending)
+        displayStatus == "Processed" -> Triple(StatusProcessed.copy(alpha = 0.15f), StatusProcessed, Icons.Outlined.CheckCircle)
+        else -> Triple(StatusReceived.copy(alpha = 0.15f), StatusReceived, Icons.Outlined.Inbox)
     }
     Surface(color = bgColor, shape = RoundedCornerShape(20.dp)) {
         Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, null, tint = txtColor, modifier = Modifier.size(14.dp))
-            Text(if (urgency == "Urgent") "URGENT" else status.uppercase(), style = MaterialTheme.typography.labelSmall, color = txtColor, fontWeight = FontWeight.Bold)
+            Text(if (urgency == "Urgent") "URGENT" else displayStatus.uppercase(), style = MaterialTheme.typography.labelSmall, color = txtColor, fontWeight = FontWeight.Bold)
         }
     }
 }

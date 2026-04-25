@@ -21,6 +21,7 @@ data class FileRecord(
     val dateRegistered: String, // Date of registration in the app
     val dateDeliveredToDomain: String, // Date delivered to the domain
     val recipientName: String,
+    val source: String = "", // Document source
     val status: String, // "Received", "Pending", "Processed"
     val attachments: List<Attachment> = emptyList(), // Store structured attachment info
     val subject: String,

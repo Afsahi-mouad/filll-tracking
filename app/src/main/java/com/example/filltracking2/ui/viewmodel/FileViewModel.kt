@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -20,13 +22,67 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = FileRecordRepository(application)
     val records: StateFlow<List<FileRecord>> = FileRecordRepository.recordsFlow
+    val savedSources: StateFlow<List<com.example.filltracking2.data.SavedSource>> = FileRecordRepository.sourcesFlow
+    
+    val savedSourcesFromRoom: StateFlow<List<com.example.filltracking2.data.SavedSourceEntity>> = 
+        repository.savedSourceDao.getAllSources().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     // Error state for UI to observe
     private val _saveError = MutableStateFlow<String?>(null)
     val saveError: StateFlow<String?> = _saveError.asStateFlow()
 
+    // Image Viewer state
+    private val _viewerImages = MutableStateFlow<List<String>>(emptyList())
+    val viewerImages = _viewerImages.asStateFlow()
+
+    private val _viewerInitialIndex = MutableStateFlow(0)
+    val viewerInitialIndex = _viewerInitialIndex.asStateFlow()
+
+    fun openImageViewer(images: List<String>, index: Int) {
+        _viewerImages.value = images
+        _viewerInitialIndex.value = index
+    }
+
     init {
         loadRecords()
+        loadSources()
+    }
+
+    private fun loadSources() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.loadSources()
+        }
+    }
+
+    fun handleSourceSaving(sourceName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val existingSources = repository.loadSources()
+            val existing = existingSources.find { it.sourceName.equals(sourceName, ignoreCase = true) }
+            
+            if (existing != null) {
+                repository.saveSource(existing.copy(
+                    lastUsedAt = System.currentTimeMillis(),
+                    useCount = existing.useCount + 1
+                ))
+            } else {
+                repository.saveSource(com.example.filltracking2.data.SavedSource(
+                    sourceName = sourceName,
+                    lastUsedAt = System.currentTimeMillis(),
+                    useCount = 1
+                ))
+            }
+        }
+    }
+
+    fun handleSourceSavingToRoom(sourceName: String) {
+        if (sourceName.length < 2) return
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.savedSourceDao.insertOrUpdate(sourceName)
+        }
     }
 
     /**
@@ -62,7 +118,7 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
                             dateRegistered = "Apr 12, 2026",
                             dateDeliveredToDomain = "Apr 13, 2026",
                             recipientName = "Alice Smith",
-                            status = "Pending",
+                            status = "Received",
                             subject = "Maintenance request",
                             urgency = "Normal",
                             sectors = listOf("Technical"),
@@ -111,6 +167,33 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
                 withContext(Dispatchers.Main) {
                     _saveError.value = "Critical save error: ${e.localizedMessage}"
                 }
+            }
+        }
+    }
+
+    fun updateRecord(record: FileRecord) {
+        FileRecordRepository.updateRecordInList(record)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.saveRecord(record)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun deleteRecord(record: FileRecord) {
+        FileRecordRepository.removeRecordFromList(record.id)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // Delete JSON record
+                repository.deleteRecord(record.id)
+                // Delete associated attachment files
+                record.attachments.forEach { attachment ->
+                    com.example.filltracking2.data.AttachmentStorage.deleteAttachment(attachment.path)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

@@ -9,27 +9,27 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 
-/**
- * Persistence layer for FileRecords using individual JSON files in internal storage.
- *
- * Only lightweight data is stored (text fields + file path references).
- * Actual file bytes live on disk in internal storage, managed by AttachmentStorage.
- * This keeps SharedPreferences small and prevents storage overflow crashes.
- */
+
 class FileRecordRepository(private val context: Context) {
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     private val gson = Gson()
+    private val database = AppDatabase.getDatabase(context)
+    val savedSourceDao = database.savedSourceDao()
 
     companion object {
         private const val PREFS_NAME = "fill_tracking_records"
         private const val KEY_RECORDS = "records_json"
         private const val RECORDS_DIR = "app_records"
+        private const val SOURCES_DIR = "app_sources"
 
         // Singleton-like in-memory store to avoid Intent size limits
         private val _recordsFlow = MutableStateFlow<List<FileRecord>>(emptyList())
         val recordsFlow: StateFlow<List<FileRecord>> = _recordsFlow.asStateFlow()
+
+        private val _sourcesFlow = MutableStateFlow<List<SavedSource>>(emptyList())
+        val sourcesFlow: StateFlow<List<SavedSource>> = _sourcesFlow.asStateFlow()
         
         val records: MutableList<FileRecord>
             get() = _recordsFlow.value.toMutableList()
@@ -43,10 +43,28 @@ class FileRecordRepository(private val context: Context) {
         fun addRecordAtStart(record: FileRecord) {
             _recordsFlow.value = listOf(record) + _recordsFlow.value
         }
+
+        fun updateRecordInList(updatedRecord: FileRecord) {
+            _recordsFlow.value = _recordsFlow.value.map {
+                if (it.id == updatedRecord.id) updatedRecord else it
+            }
+        }
+
+        fun removeRecordFromList(id: String) {
+            _recordsFlow.value = _recordsFlow.value.filter { it.id != id }
+        }
     }
 
     private fun getRecordsDir(): File {
         val dir = File(context.filesDir, RECORDS_DIR)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        return dir
+    }
+
+    private fun getSourcesDir(): File {
+        val dir = File(context.filesDir, SOURCES_DIR)
         if (!dir.exists()) {
             dir.mkdirs()
         }
@@ -86,10 +104,7 @@ class FileRecordRepository(private val context: Context) {
         }
     }
 
-    /**
-     * Saves a single record to its own file.
-     * Returns true on success.
-     */
+
     fun saveRecord(record: FileRecord): Boolean {
         return try {
             val file = File(getRecordsDir(), "record_${record.id}.json")
@@ -102,10 +117,7 @@ class FileRecordRepository(private val context: Context) {
         }
     }
 
-    /**
-     * Save the full list of records (used by ViewModel).
-     * Now saves each record individually to disk.
-     */
+
     fun saveRecords(records: List<FileRecord>): Boolean {
         var allSuccess = true
         for (record in records) {
@@ -116,10 +128,7 @@ class FileRecordRepository(private val context: Context) {
         return allSuccess
     }
 
-    /**
-     * Load all saved records from the records directory.
-     * Also performs migration if legacy data exists.
-     */
+
     fun loadRecords(): List<FileRecord> {
         migrateIfNecessary()
         
@@ -141,9 +150,7 @@ class FileRecordRepository(private val context: Context) {
         return records.sortedByDescending { it.dateRegistered } // Sort by date or id as needed
     }
 
-    /**
-     * Delete a single record file.
-     */
+
     fun deleteRecord(id: String): Boolean {
         return try {
             val file = File(getRecordsDir(), "record_$id.json")
@@ -156,15 +163,50 @@ class FileRecordRepository(private val context: Context) {
         }
     }
 
-    /**
-     * Clear all saved records.
-     */
+
     fun clearAll() {
         try {
             getRecordsDir().deleteRecursively()
+            getSourcesDir().deleteRecursively()
             prefs.edit().remove(KEY_RECORDS).apply()
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    // --- Saved Sources Persistence ---
+
+    fun saveSource(source: SavedSource): Boolean {
+        return try {
+            val file = File(getSourcesDir(), "source_${source.sourceName.hashCode()}.json")
+            val json = gson.toJson(source)
+            file.writeText(json)
+            loadSources() // Refresh flow
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    fun loadSources(): List<SavedSource> {
+        val sources = mutableListOf<SavedSource>()
+        try {
+            val files = getSourcesDir().listFiles() ?: return emptyList()
+            for (file in files) {
+                if (file.extension == "json") {
+                    val json = file.readText()
+                    val source = gson.fromJson(json, SavedSource::class.java)
+                    if (source != null) {
+                        sources.add(source)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        val sorted = sources.sortedByDescending { it.lastUsedAt }
+        _sourcesFlow.value = sorted
+        return sorted
     }
 }

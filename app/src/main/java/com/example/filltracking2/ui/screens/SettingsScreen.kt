@@ -1,6 +1,9 @@
 package com.example.filltracking2.ui.screens
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -29,13 +32,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.example.filltracking2.R
 import com.example.filltracking2.ui.theme.ThemeManager
+import com.example.filltracking2.util.PreferenceManager
+import com.example.filltracking2.util.LocaleManager
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Locale
 
@@ -44,12 +53,22 @@ import java.util.Locale
 fun SettingsScreen(
     currentUserEmail: String,
     currentPassword: String,
-    onPasswordChanged: (String) -> Unit,
     onSignOut: () -> Unit
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     var showSupportSheet by remember { mutableStateOf(false) }
+
+    val currentLocale = LocaleManager.LocalAppLocale.current
+    
+    val languageMap = mapOf(
+        "en" to "English",
+        "fr" to "Français",
+        "ar" to "العربية",
+        "de" to "Deutsch",
+        "es" to "Español"
+    )
 
     // Permission handling - now synced with system state
     var notificationsEnabled by remember { mutableStateOf(false) }
@@ -57,15 +76,7 @@ fun SettingsScreen(
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
-            notificationsEnabled = true
-        } else {
-            notificationsEnabled = false
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", context.packageName, null)
-            }
-            context.startActivity(intent)
-        }
+        notificationsEnabled = isGranted
     }
 
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
@@ -84,7 +95,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(ThemeManager.getString("settings"), fontWeight = FontWeight.Bold) }
+                title = { Text(stringResource(R.string.settings), fontWeight = FontWeight.Bold) }
             )
         }
     ) { padding ->
@@ -128,21 +139,27 @@ fun SettingsScreen(
             }
 
             // Preferences Group
-            SettingsSection(title = ThemeManager.getString("preferences")) {
+            SettingsSection(title = stringResource(R.string.preferences)) {
                 // Language
                 var showLanguageDialog by remember { mutableStateOf(false) }
                 SettingsItem(
                     icon = Icons.Default.Language,
-                    title = ThemeManager.getString("language"),
-                    subtitle = ThemeManager.currentLanguage,
+                    title = stringResource(R.string.language),
+                    subtitle = languageMap[currentLocale] ?: "English",
                     onClick = { showLanguageDialog = true }
                 )
                 if (showLanguageDialog) {
                     OptionDialog(
-                        title = ThemeManager.getString("language"),
-                        options = listOf("English", "Français", "العربية", "Deutsch", "Español"),
+                        title = stringResource(R.string.language),
+                        options = languageMap.values.toList(),
                         onDismiss = { showLanguageDialog = false },
-                        onSelect = { ThemeManager.currentLanguage = it; showLanguageDialog = false }
+                        onSelect = { selectedName ->
+                            val code = languageMap.filterValues { it == selectedName }.keys.firstOrNull() ?: "en"
+                            scope.launch {
+                                PreferenceManager.setLocale(context, code)
+                            }
+                            showLanguageDialog = false
+                        }
                     )
                 }
 
@@ -153,7 +170,7 @@ fun SettingsScreen(
                 ) {
                     Icon(Icons.Default.Palette, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text(ThemeManager.getString("theme"), modifier = Modifier.weight(1f))
+                    Text(stringResource(R.string.theme), modifier = Modifier.weight(1f))
                     Switch(
                         checked = ThemeManager.isDarkTheme,
                         onCheckedChange = { ThemeManager.isDarkTheme = it }
@@ -167,22 +184,13 @@ fun SettingsScreen(
                 ) {
                     Icon(Icons.Default.Notifications, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text(ThemeManager.getString("notifications"), modifier = Modifier.weight(1f))
+                    Text(stringResource(R.string.notifications), modifier = Modifier.weight(1f))
                     Switch(
                         checked = notificationsEnabled,
                         onCheckedChange = { checked ->
                             if (checked) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    val status = ContextCompat.checkSelfPermission(
-                                        context, Manifest.permission.POST_NOTIFICATIONS
-                                    )
-                                    if (status == PackageManager.PERMISSION_GRANTED) {
-                                        notificationsEnabled = true
-                                    } else {
-                                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                                    }
-                                } else {
-                                    notificationsEnabled = true
+                                    permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                                 }
                             } else {
                                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -196,11 +204,11 @@ fun SettingsScreen(
             }
 
             // Account Group
-            SettingsSection(title = ThemeManager.getString("account")) {
+            SettingsSection(title = stringResource(R.string.account)) {
                 var showPasswordForm by remember { mutableStateOf(false) }
                 SettingsItem(
                     icon = Icons.Default.Password,
-                    title = ThemeManager.getString("change_password"),
+                    title = stringResource(R.string.change_password),
                     onClick = { showPasswordForm = !showPasswordForm }
                 )
                 
@@ -208,7 +216,6 @@ fun SettingsScreen(
                     ChangePasswordForm(
                         currentStoredPassword = currentPassword,
                         onPasswordUpdated = { 
-                            onPasswordChanged(it)
                             showPasswordForm = false
                         }
                     )
@@ -216,13 +223,13 @@ fun SettingsScreen(
 
                 SettingsItem(
                     icon = Icons.AutoMirrored.Filled.ContactSupport,
-                    title = ThemeManager.getString("contact_support"),
+                    title = stringResource(R.string.contact_support),
                     onClick = { showSupportSheet = true }
                 )
 
                 SettingsItem(
                     icon = Icons.Default.Star,
-                    title = ThemeManager.getString("rate_app"),
+                    title = stringResource(R.string.rate_app),
                     onClick = { 
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Afsahi-mouad/filll-tracking"))
                         context.startActivity(intent)
@@ -231,7 +238,7 @@ fun SettingsScreen(
 
                 SettingsItem(
                     icon = Icons.AutoMirrored.Filled.Logout,
-                    title = ThemeManager.getString("sign_out"),
+                    title = stringResource(R.string.sign_out),
                     titleColor = MaterialTheme.colorScheme.error,
                     onClick = onSignOut
                 )
@@ -252,7 +259,7 @@ fun SettingsScreen(
             }
 
             // About Group
-            SettingsSection(title = ThemeManager.getString("about")) {
+            SettingsSection(title = stringResource(R.string.about)) {
                 SettingsItem(icon = Icons.AutoMirrored.Filled.Help, title = "Help / FAQ")
                 
                 Row(
@@ -261,8 +268,10 @@ fun SettingsScreen(
                 ) {
                     Icon(Icons.Default.Info, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text(ThemeManager.getString("version"), modifier = Modifier.weight(1f))
-                    Text("1.0.0", fontWeight = FontWeight.Bold)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text("Version 2.3", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.copyright), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                 }
             }
             
@@ -280,54 +289,94 @@ fun SettingsScreen(
 
 @Composable
 fun ChangePasswordForm(currentStoredPassword: String, onPasswordUpdated: (String) -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var currentInput by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
-    var success by remember { mutableStateOf(false) }
+    
+    var showSecurityAlert by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(16.dp).fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         OutlinedTextField(
             value = currentInput,
             onValueChange = { currentInput = it; error = null },
-            label = { Text(ThemeManager.getString("current_password")) },
+            label = { Text(stringResource(R.string.current_password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = newPassword,
             onValueChange = { newPassword = it; error = null },
-            label = { Text(ThemeManager.getString("new_password")) },
+            label = { Text(stringResource(R.string.new_password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it; error = null },
-            label = { Text(ThemeManager.getString("confirm_password")) },
+            label = { Text(stringResource(R.string.confirm_password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
 
         if (error != null) Text(error!!, color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
-        if (success) Text(ThemeManager.getString("success"), color = Color(0xFF4CAF50), fontSize = 12.sp)
 
         Button(
             onClick = {
                 if (currentInput != currentStoredPassword) {
-                    error = ThemeManager.getString("error_wrong")
+                    error = context.getString(R.string.error_wrong)
                 } else if (newPassword != confirmPassword) {
-                    error = ThemeManager.getString("error_match")
+                    error = context.getString(R.string.error_match)
                 } else {
-                    onPasswordUpdated(newPassword)
-                    success = true
+                    scope.launch {
+                        PreferenceManager.setPassword(context, newPassword)
+                        showSecurityAlert = true
+                        showChangeNotification(context)
+                        onPasswordUpdated(newPassword)
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(ThemeManager.getString("update"))
+            Text(stringResource(R.string.update))
         }
     }
+
+    if (showSecurityAlert) {
+        AlertDialog(
+            onDismissRequest = { showSecurityAlert = false },
+            icon = { Icon(Icons.Default.Security, null, tint = MaterialTheme.colorScheme.primary) },
+            title = { Text(stringResource(R.string.security_alert)) },
+            text = { Text(stringResource(R.string.security_desc)) },
+            confirmButton = {
+                TextButton(onClick = { showSecurityAlert = false }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
+
+private fun showChangeNotification(context: Context) {
+    val channelId = "security_alerts"
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val channel = NotificationChannel(channelId, "Security Alerts", NotificationManager.IMPORTANCE_HIGH)
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    val notification = NotificationCompat.Builder(context, channelId)
+        .setSmallIcon(android.R.drawable.ic_lock_lock)
+        .setContentTitle(context.getString(R.string.security_alert))
+        .setContentText(context.getString(R.string.password_changed))
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setAutoCancel(true)
+        .build()
+
+    notificationManager.notify(1001, notification)
 }
 
 @Composable

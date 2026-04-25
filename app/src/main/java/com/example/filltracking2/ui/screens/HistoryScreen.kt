@@ -17,8 +17,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.filltracking2.R
 import com.example.filltracking2.data.FileRecord
+import com.example.filltracking2.ui.theme.StatusProcessed
+import com.example.filltracking2.ui.theme.StatusUrgent
 import com.example.filltracking2.ui.theme.ThemeManager
 import com.example.filltracking2.ui.viewmodel.FileViewModel
 import com.kizitonwose.calendar.compose.HorizontalCalendar
@@ -71,7 +76,7 @@ fun HistoryScreen(
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text(ThemeManager.getString("history"), fontWeight = FontWeight.Bold) }) }
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.history), fontWeight = FontWeight.Bold) }) }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
             CalendarHeader(
@@ -87,10 +92,11 @@ fun HistoryScreen(
             HorizontalCalendar(
                 state = state,
                 dayContent = { day ->
+                    val dayRecords = recordsByDate[day.date] ?: emptyList()
                     Day(
                         day = day,
                         isSelected = selectedDate == day.date,
-                        hasFiles = recordsByDate.containsKey(day.date),
+                        records = dayRecords,
                         onClick = { selectedDate = it.date }
                     )
                 },
@@ -112,7 +118,7 @@ fun HistoryScreen(
 
                 if (selectedDateRecords.isEmpty()) {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(ThemeManager.getString("doc_not_found"))
+                        Text(stringResource(R.string.doc_not_found))
                     }
                 } else {
                     LazyColumn(
@@ -130,33 +136,60 @@ fun HistoryScreen(
 }
 
 @Composable
-fun Day(day: CalendarDay, isSelected: Boolean, hasFiles: Boolean, onClick: (CalendarDay) -> Unit) {
+fun Day(day: CalendarDay, isSelected: Boolean, records: List<FileRecord>, onClick: (CalendarDay) -> Unit) {
+    val isCurrentMonth = day.position == DayPosition.MonthDate
     Box(
         modifier = Modifier
             .aspectRatio(1f)
             .padding(2.dp)
             .clip(CircleShape)
             .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent)
-            .clickable(enabled = day.position == DayPosition.MonthDate) { onClick(day) },
+            .clickable(enabled = isCurrentMonth) { onClick(day) },
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = day.date.dayOfMonth.toString(),
                 color = when {
-                    day.position != DayPosition.MonthDate -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+                    !isCurrentMonth -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
                     isSelected -> MaterialTheme.colorScheme.onPrimary
                     else -> MaterialTheme.colorScheme.onSurface
                 },
                 style = MaterialTheme.typography.bodyMedium
             )
-            if (hasFiles && day.position == DayPosition.MonthDate) {
-                Box(
-                    modifier = Modifier
-                        .size(4.dp)
-                        .clip(CircleShape)
-                        .background(if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary)
-                )
+            
+            if (isCurrentMonth && records.isNotEmpty()) {
+                if (records.size <= 3) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(2.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        records.forEach { record ->
+                            Box(
+                                modifier = Modifier
+                                    .size(4.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (record.urgency == "Urgent") StatusUrgent 
+                                        else StatusProcessed
+                                    )
+                            )
+                        }
+                    }
+                } else {
+                    val urgentCount = records.count { it.urgency == "Urgent" }
+                    val dominantColor = if (urgentCount > 0) StatusUrgent 
+                                        else StatusProcessed
+                    Text(
+                        text = "${records.size}+",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+                        color = if (isSelected) MaterialTheme.colorScheme.onPrimary else dominantColor,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
@@ -193,13 +226,34 @@ fun HistoryFileCard(record: FileRecord, onClick: () -> Unit) {
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+        colors = CardDefaults.cardColors(
+            containerColor = if (record.urgency == "Urgent") 
+                StatusUrgent.copy(alpha = 0.05f) 
+            else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        ),
+        border = if (record.urgency == "Urgent") 
+            androidx.compose.foundation.BorderStroke(1.dp, StatusUrgent.copy(alpha = 0.2f)) 
+        else null,
         shape = RoundedCornerShape(12.dp)
     ) {
-        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.padding(16.dp), 
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = record.subject, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, maxLines = 1)
+                Text(
+                    text = record.subject, 
+                    style = MaterialTheme.typography.titleSmall, 
+                    fontWeight = FontWeight.Bold, 
+                    maxLines = 1,
+                    color = if (record.urgency == "Urgent") StatusUrgent else Color.Unspecified
+                )
                 Text(text = "Serial: ${record.internalSerial} • ${record.recipientName}", style = MaterialTheme.typography.labelMedium)
+            }
+            
+            if (record.urgency == "Urgent") {
+                StatusPill(status = record.status, urgency = record.urgency)
             }
         }
     }
