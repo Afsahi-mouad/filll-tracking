@@ -1,0 +1,225 @@
+<resources>
+    <string name="login_title">Bon retour</string>
+    <string name="login_subtitle">Connectez-vous pour continuer</string>
+    <string name="email">E-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="login_button">Connexion</string>
+    <string name="login_error">E-mail ou mot de passe invalide</string>
+    <string name="home">Accueil</string>
+    <string name="dashboard">Accueil</string>
+    <string name="history">Historique</string>
+    <string name="settings">Paramètres</string>
+    <string name="preferences">Préférences</string>
+    <string name="language">Langue</string>
+    <string name="theme">Thème</string>
+    <string name="notifications">Notifications</string>
+    <string name="account">Compte</string>
+    <string name="change_password">Changer le mot de passe</string>
+    <string name="contact_support">Contacter le support</string>
+    <string name="rate_app">Évaluer l\'application</string>
+    <string name="about">À propos</string>
+    <string name="version">Version</string>
+    <string name="sign_out">Déconnexion</string>
+    <string name="light">Clair</string>
+    <string name="dark">Sombre</string>
+    <string name="normal">Normal</string>
+    <string name="urgent">Urgent</string>
+    <string name="identification">Identification</string>
+    <string name="current_password">Mot de passe actuel</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="update">Mettre à jour</string>
+    <string name="success">Succès!</string>
+    <string name="error_match">Les mots de passe ne correspondent pas</string>
+    <string name="error_wrong">Mot de passe actuel incorrect</string>
+    <string name="thank_you">Merci pour votre note!</string>
+    <string name="new_file">Nouvel enregistrement</string>
+    <string name="original_serial">N° de série original (Gouv)</string>
+    <string name="internal_serial">N° de série interne</string>
+    <string name="recipient_name">Nom du destinataire</string>
+    <string name="subject">Sujet</string>
+    <string name="tracking_dates">Dates de suivi</string>
+    <string name="received_gov">Reçu (Gouv)</string>
+    <string name="delivered_sector">Secteur livré</string>
+    <string name="registered_app">Enregistré dans l\'app</string>
+    <string name="destination_sectors">Secteurs de destination</string>
+    <string name="attachments">Pièces jointes</string>
+    <string name="camera">Appareil photo</string>
+    <string name="gallery">Galerie</string>
+    <string name="notes">Notes du directeur</string>
+    <string name="register_button">Enregistrer le document</string>
+    <string name="doc_details">Détails du document</string>
+    <string name="internal_serial_label">Série interne</string>
+    <string name="original_serial_label">Série originale</string>
+    <string name="recipient">Destinataire</string>
+    <string name="tracking_timeline">Chronologie du suivi</string>
+    <string name="received_gov_label">Reçu (Gouv)</string>
+    <string name="registered_label">Enregistré dans l\'app</string>
+    <string name="delivered_label">Livré au secteur</string>
+    <string name="doc_not_found">Document non trouvé</string>
+    <string name="sector_dashboard">Tableau de bord des secteurs</string>
+    <string name="file_tracker">SUIVI DES FICHIERS</string>
+    <string name="view_director">Directeur (Accueil)</string>
+    <string name="view_sector">Vue par secteur</string>
+    <string name="analytics">Statistiques</string>
+    <string name="priority_distribution">Répartition des priorités</string>
+    <string name="sector_overview">Aperçu du secteur</string>
+    <string name="no_data_yet">Pas encore de données</string>
+    <string name="status_breakdown">Répartition des statuts</string>
+    <string name="cumulative_completions">Complétions cumulatives</string>
+    <string name="top_sectors">Secteurs principaux</string>
+    <string name="other">Autres</string>
+    <string name="not_enough_data">Pas encore assez de données</string>
+
+    <string name="sector_educational_affairs">Affaires Pédagogiques</string>
+    <string name="sector_planning">Planification</string>
+    <string name="sector_orientation">Encadrement</string>
+    <string name="sector_buildings">Bâtiments</string>
+    <string name="sector_mail_writing">Courrier (D.K.)</string>
+    <string name="sector_finance_main">Finances</string>
+    <string name="sector_information_system">Système d\'Information</string>
+    <string name="sector_exams">Examens</string>
+    <string name="sector_legal_affairs">Affaires Juridiques, Communication et Partenariat</string>
+    <string name="sector_hr_management">Gestion des Ressources Humaines</string>
+    <string name="sector_inspection">Inspection</string>
+    <string name="sector_security">Sécurité</string>
+    <string name="sector_admin">Administration</string>
+    <string name="sector_operations">Opérations</string>
+    <string name="sector_general">Général</string>
+    <string name="sector_technical">Technique</string>
+
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="reset_info">Entrez 0000 pour réinitialiser le mot de passe</string>
+    <string name="password_changed">Mot de passe changé avec succès</string>
+    <string name="security_alert">Alerte de sécurité</string>
+    <string name="security_desc">Le mot de passe de votre compte vient d\'être changé. Si vous n\'êtes pas à l\'origine de cette action, veuillez contacter le support.</string>
+    <string name="doc_track">DocTrack</string>
+    <string name="documents">Documents</string>
+    <string name="security">Sécurité</string>
+    <string name="user_info">Directeur - 20 avr. 2026</string>
+    <string name="user_initials">DR</string>
+    <string name="total">Total</string>
+    <string name="processed">Traitée</string>
+    <string name="done">Terminé</string>
+    <string name="pending">En attente</string>
+    <string name="search_hint">Rechercher n° de série ou sujet...</string>
+    <string name="all">Tout</string>
+    <string name="general_category">Général</string>
+    <string name="receiver">Récepteur</string>
+    <string name="recent_files">FICHIERS RÉCENTS</string>
+    <string name="file_id_1">26-0001 - 10 avr.</string>
+    <string name="file_title_1">Révision du budget annuel</string>
+    <string name="file_sectors_1">Finance - Administration - Juridique</string>
+    <string name="confirmed_1_of_3">1 sur 3 confirmé</string>
+    <string name="file_id_2">26-0002 - 12 avr.</string>
+    <string name="file_title_2">Maintenance des équipements</string>
+    <string name="file_sectors_2">Technique - Opérations</string>
+    <string name="confirmed_2_of_2">2 sur 2 confirmé</string>
+    <string name="sent_today">ENVOYÉ AUJOURD\'HUI</string>
+    <string name="serial_auto_assigned">Le numéro de série sera auto-assigné : 26-0005</string>
+    <string name="save_file">ENREGISTRER LE FICHIER</string>
+    <string name="infrastructure_upgrade_hint">Plan de mise à niveau des infrastructures</string>
+    <string name="urgency">URGENCE</string>
+    <string name="directors_note">NOTE DU DIRECTEUR</string>
+    <string name="note_hint">Valider l\'allocation budgétaire avant la réunion de jeudi...</string>
+    <string name="send_to_sectors">ENVOYER AUX SECTEURS</string>
+    <string name="attach_or_scan">Joindre ou numériser le document</string>
+
+    <string name="source_prefecture">Préfecture</string>
+    <string name="source_academy">Académie</string>
+    <string name="source_government">Gouvernement</string>
+    <string name="source_directorate">Direction</string>
+    <string name="source_health_delegation">Délégation de la Santé</string>
+    <string name="source_ministry">Ministère</string>
+    <string name="source_other">Autre</string>
+    <string name="source_label">Source</string>
+    <string name="custom_source_hint">Saisir le nom de la source</string>
+    <string name="source_error">Veuillez saisir la source</string>
+
+    <string name="edit_success">Document mis à jour avec succès ✓</string>
+    <string name="delete_confirm_title">Supprimer le document</string>
+    <string name="delete_confirm_msg">Voulez-vous supprimer ce document? Cette action est irréversible</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+    <string name="edit">Modifier</string>
+    <string name="update_button">Mettre à jour le document</string>
+    <string name="confirm">Confirmer</string>
+    <string name="copyright">© 2025 File Tracker. Tous droits réservés.</string>
+    <string name="export_data">Exporter les données (Archive)</string>
+    <string name="export_excel">Exporter vers Excel</string>
+    <string name="no_records_to_export">Aucun enregistrement à exporter</string>
+    <string name="export_success">Données exportées avec succès</string>
+    <string name="export_error">Erreur lors de l\'exportation des données</string>
+    <string name="opening_file">Ouverture du fichier...</string>
+    <string name="wipe_data">Effacer toutes les données</string>
+    <string name="wipe_data_desc">Tous les enregistrements et pièces jointes seront définitivement supprimés</string>
+    <string name="wipe_confirm_title">Êtes-vous sûr ?</string>
+    <string name="wipe_confirm_msg">Cela supprimera définitivement tous les documents et photos. Cette action est irréversible.</string>
+    <string name="wipe_success">Toutes les données ont été effacées</string>
+    <string name="help_faq">Aide / FAQ</string>
+    <string name="search_faq">Rechercher dans la FAQ...</string>
+
+    <!-- FAQ Content -->
+    <string name="faq_q_what_is">Qu\'est-ce que File Tracker ?</string>
+    <string name="faq_a_what_is">Une application numérique de gestion de documents pour le personnel administratif des établissements d\'enseignement marocains. Elle remplace les registres papier par un système moderne et organisé pour le suivi des documents officiels.</string>
+
+    <string name="faq_q_who_can_use">Qui peut utiliser File Tracker ?</string>
+    <string name="faq_a_who_can_use">Uniquement le personnel administratif autorisé. L\'accès est protégé par un mot de passe défini et géré par l\'administrateur.</string>
+
+    <string name="faq_q_languages">Quelles langues l\'application prend-elle en charge ?</string>
+    <string name="faq_a_languages">L\'arabe (avec mise en page RTL), le français, l\'anglais, l\'allemand et l\'espagnol. L\'interface complète change de langue et de direction.</string>
+
+    <string name="faq_q_register">Comment enregistrer un nouveau document ?</string>
+    <string name="faq_a_register">Ouvrez l\'application, appuyez sur \"Enregistrer un document\" et remplissez le numéro de série gouvernemental, le numéro de série interne, l\'expéditeur (Académie, Préfecture, Ministère, etc.), le sujet, le niveau de priorité, le département de destination, les dates, le nom du destinataire et joignez éventuellement des photos ou un PDF.</string>
+
+    <string name="faq_q_priority">Quelle est la différence entre la priorité Normale et Urgente ?</string>
+    <string name="faq_a_priority">Les documents normaux suivent un traitement standard. Les documents urgents sont mis en évidence en rouge dans toute l\'application — dans le tableau de bord, le calendrier et les vues des départements — afin que le personnel puisse les identifier et agir immédiatement.</string>
+
+    <string name="faq_q_attachments">Puis-je joindre des fichiers à un enregistrement de document ?</string>
+    <string name="faq_a_attachments">Oui. Vous pouvez joindre des photos ou des fichiers PDF lors de l\'enregistrement ou de la modification d\'un document.</string>
+
+    <string name="faq_q_find_date">Comment trouver un document à une date précise ?</string>
+    <string name="faq_a_find_date">Accédez à la vue Calendrier, appuyez sur n\'importe quelle date et tous les documents enregistrés ce jour-là apparaîtront. Les urgents s\'affichent en rouge, les normaux en vert.</string>
+
+    <string name="faq_q_dashboard_show">Que montre le tableau de bord ?</string>
+    <string name="faq_a_dashboard_show">L\'écran d\'accueil affiche le nombre total de documents enregistrés aujourd\'hui, le nombre de documents urgents et le nombre de documents normaux. Appuyer sur chaque compteur filtre la liste des documents en conséquence.</string>
+
+    <string name="faq_q_sector_dash">Qu\'est-ce que le tableau de bord sectoriel ?</string>
+    <string name="faq_a_sector_dash">Il organise les documents par département (ex. : Affaires éducatives, Planification, Finances) afin que les chefs de département puissent voir rapidement tous les documents qui leur sont assignés.</string>
+
+    <string name="faq_q_security">Comment l\'application est-elle sécurisée ?</string>
+    <string name="faq_a_security">L\'application nécessite un mot de passe pour se connecter. Seul le personnel autorisé peut y accéder. L\'administrateur peut changer le mot de passe à tout moment depuis les Paramètres.</string>
+
+    <string name="faq_q_forgot_pw">Que se passe-t-il si j\'oublie le mot de passe ?</string>
+    <string name="faq_a_forgot_pw">Contactez votre administrateur. Le mot de passe peut être réinitialisé depuis l\'écran Paramètres par l\'administrateur.</string>
+
+    <string name="faq_q_change_lang">Comment changer la langue ?</string>
+    <string name="faq_a_change_lang">Allez dans Paramètres et sélectionnez votre langue préférée. L\'application changera immédiatement, y compris la direction de la mise en page pour l\'arabe.</string>
+
+    <string name="faq_q_export">Puis-je exporter les enregistrements de documents ?</string>
+    <string name="faq_a_export">Oui. Depuis les Paramètres, vous pouvez exporter tous les enregistrements vers un fichier Excel.</string>
+
+    <string name="faq_q_dark_mode">L\'application prend-elle en charge le mode sombre ?</string>
+    <string name="faq_a_dark_mode">Oui. Vous pouvez basculer entre les thèmes sombre et clair dans les Paramètres.</string>
+
+    <string name="faq_q_notifications">Comment activer ou désactiver les notifications ?</string>
+    <string name="faq_a_notifications">Activez ou désactivez les notifications depuis l\'écran Paramètres.</string>
+
+    <!-- Login Screen Moroccan Government Branding -->
+    <string name="morocco_kingdom">Royaume du Maroc</string>
+    <string name="ministry_name">Ministère de l\'Éducation Nationale, du Préscolaire et des Sports</string>
+    <string name="regional_academy">Académie Régionale d\'Éducation et de Formation</string>
+    <string name="directorate_info">Région Souss Massa, Direction Provinciale Inezgane Ait Melloul</string>
+    <string name="secure_login">Connexion Sécurisée</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="username_placeholder">Entrez le nom d\'utilisateur</string>
+    <string name="password_placeholder">Entrez le mot de passe</string>
+    <string name="login_action">Se connecter</string>
+    <string name="footer_copyright">© 2026 Royaume du Maroc</string>
+    <string name="footer_portal">Portail des Services Administratifs Numériques</string>
+    <string name="privacy_policy">Politique de Confidentialité</string>
+    <string name="terms_of_use">Conditions d\'Utilisation</string>
+    <string name="help">Aide</string>
+    <string name="remember_me">Se souvenir de moi</string>
+    <string name="pin_code">Code PIN</string>
+</resources>

@@ -1,0 +1,231 @@
+<resources>
+    <string name="app_name">تتبع الملفات 2</string>
+    <string name="login_title">مرحباً بعودتك</string>
+    <string name="login_subtitle">قم بتسجيل الدخول للمتابعة</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="login_button">تسجيل الدخول</string>
+    <string name="login_error">البريد الإلكتروني أو كلمة المرور غير صالحة</string>
+    <string name="home">الرئيسية</string>
+    <string name="dashboard">الرئيسية</string>
+    <string name="history">السجل</string>
+    <string name="settings">الإعدادات</string>
+    <string name="preferences">التفضيلات</string>
+    <string name="language">اللغة</string>
+    <string name="theme">المظهر</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="account">الحساب</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="contact_support">الاتصال بالدعم</string>
+    <string name="rate_app">تقييم التطبيق</string>
+    <string name="about">حول</string>
+    <string name="version">الإصدار</string>
+    <string name="sign_out">تسجيل الخروج</string>
+    <string name="light">فاتح</string>
+    <string name="dark">داكن</string>
+    <string name="normal">عادي</string>
+    <string name="urgent">عاجل</string>
+    <string name="identification">التعريف</string>
+    <string name="current_password">كلمة المرور الحالية</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="update">تحديث</string>
+    <string name="success">تم بنجاح!</string>
+    <string name="error_match">كلمات المرور غير متطابقة</string>
+    <string name="error_wrong">كلمة المرور الحالية خاطئة</string>
+    <string name="thank_you">شكراً لتقييمك!</string>
+    <string name="new_file">سجل ملف جديد</string>
+    <string name="original_serial">الرقم التسلسلي الأصلي (حكومي)</string>
+    <string name="internal_serial">الرقم التسلسلي الداخلي</string>
+    <string name="recipient_name">اسم المستلم</string>
+    <string name="subject">الموضوع</string>
+    <string name="tracking_dates">تاريخ التتبع</string>
+    <string name="received_gov">استلام (حكومي)</string>
+    <string name="delivered_sector">مصلحة التسليم</string>
+    <string name="registered_app">مسجل في التطبيق</string>
+    <string name="destination_sectors">المصالح المستهدفة</string>
+    <string name="attachments">المرفقات</string>
+    <string name="camera">الكاميرا</string>
+    <string name="gallery">المعرض</string>
+    <string name="notes">ملاحظات المدير</string>
+    <string name="register_button">تسجيل الوثيقة</string>
+    <string name="doc_details">تفاصيل الوثيقة</string>
+    <string name="internal_serial_label">سلسلة داخلية</string>
+    <string name="original_serial_label">سلسلة أصلية</string>
+    <string name="recipient">المستلم</string>
+    <string name="tracking_timeline">الجدول الزمني للتتبع</string>
+    <string name="received_gov_label">استلام (حكومي)</string>
+    <string name="registered_label">مسجل في التطبيق</string>
+    <string name="delivered_label">سلمت للمصلحة</string>
+    <string name="doc_not_found">الوثيقة غير موجودة</string>
+    <string name="sector_dashboard">لوحة تحكم المصالح</string>
+    <string name="file_tracker">تتبع الملفات</string>
+    <string name="view_director">المدير (الرئيسية)</string>
+    <string name="view_sector">عرض المصالح</string>
+    <string name="analytics">الإحصائيات</string>
+    <string name="priority_distribution">توزيع الأولويات</string>
+    <string name="sector_overview">نظرة عامة على المصالح</string>
+    <string name="no_data_yet">لا توجد بيانات بعد</string>
+    <string name="status_breakdown">توزيع الحالات</string>
+    <string name="cumulative_completions">الإنجازات التراكمية</string>
+    <string name="top_sectors">أبرز المصالح</string>
+    <string name="other">أخرى</string>
+    <string name="not_enough_data">لا توجد بيانات كافية بعد</string>
+
+    <string name="sector_educational_affairs">شؤون تربوية</string>
+    <string name="sector_planning">التخطيط</string>
+    <string name="sector_orientation">التأطير</string>
+    <string name="sector_buildings">البنايات</string>
+    <string name="sector_mail_writing">بريد الكتابة (ذ خ)</string>
+    <string name="sector_finance_main">المالية</string>
+    <string name="sector_information_system">منظومة الإعلام</string>
+    <string name="sector_exams">الامتحانات</string>
+    <string name="sector_legal_affairs">الشؤون القانونية والتواصل والشراكة</string>
+    <string name="sector_hr_management">تدبير الموارد البشرية</string>
+    <string name="sector_inspection">المفتشية</string>
+    <string name="sector_security">الأمن</string>
+    <string name="sector_admin">الإدارة</string>
+    <string name="sector_operations">العمليات</string>
+    <string name="sector_general">عام</string>
+    <string name="sector_technical">التقنية</string>
+
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="reset_info">أدخل 0000 لإعادة تعيين كلمة المرور</string>
+    <string name="password_changed">تم تغيير كلمة المرور بنجاح</string>
+    <string name="security_alert">تنبيه أمني</string>
+    <string name="security_desc">تم تغيير كلمة مرور حسابك للتو. إذا لم تقم بذلك، يرجى الاتصال بالدعم.</string>
+    <string name="doc_track">تتبع الوثائق</string>
+    <string name="documents">الوثائق</string>
+    <string name="security">الأمان</string>
+    <string name="user_info">المدير - 20 أبريل 2026</string>
+    <string name="user_initials">مد</string>
+    <string name="total">الإجمالي</string>
+    <string name="processed">معالجة</string>
+    <string name="done">تم</string>
+    <string name="pending">قيد الانتظار</string>
+    <string name="search_hint">بحث عن رقم تسلسلي أو موضوع...</string>
+    <string name="all">الكل</string>
+    <string name="general_category">عام</string>
+    <string name="receiver">المستلم</string>
+    <string name="recent_files">الملفات الأخيرة</string>
+    <string name="file_id_1">26-0001 - 10 أبريل</string>
+    <string name="file_title_1">مراجعة الميزانية السنوية</string>
+    <string name="file_sectors_1">المالية - الإدارة - القانونية</string>
+    <string name="confirmed_1_of_3">1 من 3 تم تأكيده</string>
+    <string name="file_id_2">26-0002 - 12 أبريل</string>
+    <string name="file_title_2">صيانة المعدات</string>
+    <string name="file_sectors_2">الفنية - العمليات</string>
+    <string name="confirmed_2_of_2">2 من 2 تم تأكيده</string>
+    <string name="sent_today">أرسل اليوم</string>
+    <string name="serial_auto_assigned">سيتم تعيين الرقم التسلسلي تلقائياً: 26-0005</string>
+    <string name="save_file">حفظ الملف</string>
+    <string name="infrastructure_upgrade_hint">خطة ترقية البنية التحتية</string>
+    <string name="urgency">الاستعجال</string>
+    <string name="directors_note">ملاحظة المدير</string>
+    <string name="note_hint">التحقق من تخصيص الميزانية قبل اجتماع الخميس...</string>
+    <string name="send_to_sectors">إرسال إلى المصالح</string>
+    <string name="attach_or_scan">إرفاق أو مسح المستند</string>
+
+    <string name="source_prefecture">عمالة</string>
+    <string name="source_academy">الأكاديمية</string>
+    <string name="source_government">الحكومة</string>
+    <string name="source_directorate">المديرية</string>
+    <string name="source_health_delegation">المندوبية الصحية</string>
+    <string name="source_ministry">الوزارة</string>
+    <string name="source_other">أخرى</string>
+    <string name="source_label">المصدر</string>
+    <string name="custom_source_hint">أدخل اسم المصدر</string>
+    <string name="source_error">يرجى إدخال المصدر</string>
+
+    <string name="edit_success">تم تحديث الوثيقة بنجاح ✓</string>
+    <string name="delete_confirm_title">حذف الوثيقة</string>
+    <string name="delete_confirm_msg">هل تريد حذف هذه الوثيقة؟ لا يمكن التراجع عن هذا الإجراء</string>
+    <string name="delete">حذف</string>
+    <string name="cancel">إلغاء</string>
+    <string name="edit">تعديل</string>
+    <string name="update_button">تحديث الوثيقة</string>
+    <string name="confirm">تأكيد</string>
+    <string name="copyright">© 2025 File Tracker. جميع الحقوق محفوظة.</string>
+    <string name="error_open_pdf">تعذر فتح ملف PDF</string>
+    <string name="open_pdf_with">فتح ملف PDF بواسطة...</string>
+    <string name="export_data">تصدير البيانات (أرشيف)</string>
+    <string name="export_excel">تصدير إلى Excel</string>
+    <string name="no_records_to_export">لا توجد سجلات للتصدير</string>
+    <string name="export_success">تم تصدير البيانات بنجاح</string>
+    <string name="export_error">حدث خطأ أثناء التصدير</string>
+    <string name="opening_file">جاري فتح الملف...</string>
+    <string name="wipe_data">مسح جميع البيانات</string>
+    <string name="wipe_data_desc">سيتم حذف جميع السجلات والمرفقات بشكل نهائي</string>
+    <string name="wipe_confirm_title">هل أنت متأكد؟</string>
+    <string name="wipe_confirm_msg">سيؤدي هذا الإجراء إلى حذف جميع الوثائق والصور بشكل دائم. لا يمكن التراجع عن هذا الفعل.</string>
+    <string name="wipe_success">تم مسح جميع البيانات بنجاح</string>
+    <string name="help_faq">المساعدة / الأسئلة الشائعة</string>
+    <string name="search_faq">البحث في الأسئلة...</string>
+
+    <!-- FAQ Content -->
+    <string name="faq_q_what_is">ما هو تتبع الملفات؟</string>
+    <string name="faq_a_what_is">تطبيق رقمي لإدارة المستندات للموظفين الإداريين في المؤسسات التعليمية المغربية. يستبدل السجلات الورقية بنظام حديث ومنظم لتتبع الوثائق الرسمية.</string>
+
+    <string name="faq_q_who_can_use">من يمكنه استخدام تتبع الملفات؟</string>
+    <string name="faq_a_who_can_use">الموظفون الإداريون المصرح لهم فقط. الوصول محمي بكلمة مرور يتم تعيينها وإدارتها من قبل المسؤول.</string>
+
+    <string name="faq_q_languages">ما هي اللغات التي يدعمها التطبيق؟</string>
+    <string name="faq_a_languages">العربية (مع تخطيط من اليمين إلى اليسار)، الفرنسية، الإنجليزية، الألمانية، والإسبانية. تتغير الواجهة بالكامل عند تغيير اللغة والاتجاه.</string>
+
+    <string name="faq_q_register">كيف أقوم بتسجيل وثيقة جديدة؟</string>
+    <string name="faq_a_register">افتح التطبيق، اضغط على \"تسجيل وثيقة\"، واملأ الرقم التسلسلي الحكومي، الرقم التسلسلي الداخلي، المرسل (أكاديمية، عمالة، وزارة، إلخ)، الموضوع، مستوى الأولوية، المصلحة المستهدفة، التواريخ، اسم المستلم، ويمكنك اختيارياً إرفاق صور أو ملف PDF.</string>
+
+    <string name="faq_q_priority">ما الفرق بين الأولوية العادية والعاجلة؟</string>
+    <string name="faq_a_priority">الوثائق العادية تتبع المعالجة القياسية. الوثائق العاجلة تبرز باللون الأحمر في جميع أنحاء التطبيق - في لوحة التحكم، التقويم، وعروض المصالح - حتى يتمكن الموظفون من التعرف عليها والعمل عليها فوراً.</string>
+
+    <string name="faq_q_attachments">هل يمكنني إرفاق ملفات بسجل الوثيقة؟</string>
+    <string name="faq_a_attachments">نعم. يمكنك إرفاق صور أو ملفات PDF عند تسجيل أو تعديل وثيقة.</string>
+
+    <string name="faq_q_find_date">كيف أجد وثيقة من تاريخ معين؟</string>
+    <string name="faq_a_find_date">انتقل إلى عرض التقويم، واضغط على أي تاريخ، وستظهر جميع الوثائق المسجلة في ذلك اليوم. تظهر الوثائق العاجلة باللون الأحمر، والعادية باللون الأخضر.</string>
+
+    <string name="faq_q_dashboard_show">ماذا تظهر لوحة التحكم؟</string>
+    <string name="faq_a_dashboard_show">تظهر الشاشة الرئيسية إجمالي الوثائق المسجلة اليوم، وعدد الوثائق العاجلة، وعدد الوثائق العادية. الضغط على كل عداد يصفي قائمة الوثائق وفقاً لذلك.</string>
+
+    <string name="faq_q_sector_dash">ما هي لوحة تحكم المصالح؟</string>
+    <string name="faq_a_sector_dash">تنظم الوثائق حسب المصلحة (مثلاً: الشؤون التربوية، التخطيط، المالية) بحيث يمكن لرؤساء المصالح رؤية جميع الوثائق المخصصة لهم بسرعة.</string>
+
+    <string name="faq_q_security">كيف يتم تأمين التطبيق؟</string>
+    <string name="faq_a_security">يتطلب التطبيق كلمة مرور لتسجيل الدخول. يمكن للموظفين المصرح لهم فقط الوصول إليه. يمكن للمسؤول تغيير كلمة المرور في أي وقت من الإعدادات.</string>
+
+    <string name="faq_q_forgot_pw">ماذا يحدث إذا نسيت كلمة المرور؟</string>
+    <string name="faq_a_forgot_pw">اتصل بالمسؤول الخاص بك. يمكن للمسؤول إعادة تعيين كلمة المرور من شاشة الإعدادات.</string>
+
+    <string name="faq_q_change_lang">كيف أغير اللغة؟</string>
+    <string name="faq_a_change_lang">انتقل إلى الإعدادات واختر لغتك المفضلة. سيتغير التطبيق فوراً بما في ذلك اتجاه التخطيط للغة العربية.</string>
+
+    <string name="faq_q_export">هل يمكنني تصدير سجلات الوثائق؟</string>
+    <string name="faq_a_export">نعم. من الإعدادات، يمكنك تصدير جميع السجلات إلى ملف Excel.</string>
+
+    <string name="faq_q_dark_mode">هل يدعم التطبيق الوضع الداكن؟</string>
+    <string name="faq_a_dark_mode">نعم. يمكنك التبديل بين المظهرين الداكن والفاتح في الإعدادات.</string>
+
+    <string name="faq_q_notifications">كيف يمكنني تفعيل أو تعطيل الإشعارات؟</string>
+    <string name="faq_a_notifications">قم بتبديل الإشعارات من شاشة الإعدادات.</string>
+
+    <!-- Login Screen Moroccan Government Branding -->
+    <string name="morocco_kingdom">المملكة المغربية</string>
+    <string name="ministry_name">وزارة التربية الوطنية والتعليم الأولي والرياضة</string>
+    <string name="regional_academy">الأكاديمية الجهوية للتربية والتكوين</string>
+    <string name="directorate_info">جهة سوس ماسة ,المديرية الإقليمية إنزكان أيت ملول</string>
+    <string name="secure_login">دخول آمن</string>
+    <string name="username">اسم المستخدم (Username)</string>
+    <string name="username_placeholder">أدخل اسم المستخدم</string>
+    <string name="password_placeholder">أدخل كلمة المرور</string>
+    <string name="login_action">تسجيل الدخول</string>
+    <string name="security_badge_text">اتصال مشفر وآمن 256-بت</string>
+    <string name="footer_copyright">© 2026 المملكة المغربية</string>
+    <string name="footer_portal">بوابة الخدمات الإدارية الرقمية</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="terms_of_use">شروط الاستخدام</string>
+    <string name="help">المساعدة</string>
+    <string name="remember_me">تذكرني</string>
+    <string name="pin_code">رمز PIN</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="google_sign_in">تسجيل الدخول بواسطة Google</string>
+</resources>

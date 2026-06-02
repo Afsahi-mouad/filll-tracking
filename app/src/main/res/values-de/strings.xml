@@ -1,0 +1,208 @@
+<resources>
+    <string name="app_name">Fill Tracking 2</string>
+    <string name="login_title">Willkommen zurück</string>
+    <string name="login_subtitle">Melden Sie sich an, um fortzufahren</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    <string name="login_button">Anmelden</string>
+    <string name="login_error">Ungültige E-Mail oder Passwort</string>
+    <string name="home">Startseite</string>
+    <string name="dashboard">Startseite</string>
+    <string name="history">Verlauf</string>
+    <string name="settings">Einstellungen</string>
+    <string name="preferences">Präferenzen</string>
+    <string name="language">Sprache</string>
+    <string name="theme">Design</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="account">Konto</string>
+    <string name="change_password">Passwort ändern</string>
+    <string name="contact_support">Support kontaktieren</string>
+    <string name="rate_app">App bewerten</string>
+    <string name="about">Über</string>
+    <string name="version">Version</string>
+    <string name="sign_out">Abmelden</string>
+    <string name="light">Hell</string>
+    <string name="dark">Dunkel</string>
+    <string name="normal">Normal</string>
+    <string name="urgent">Dringend</string>
+    <string name="identification">Identifikation</string>
+    <string name="current_password">Aktuelles Passwort</string>
+    <string name="new_password">Neues Passwort</string>
+    <string name="confirm_password">Neues Passwort bestätigen</string>
+    <string name="update">Passwort aktualisieren</string>
+    <string name="success">Erfolg!</string>
+    <string name="error_match">Passwörter stimmen nicht überein</string>
+    <string name="error_wrong">Falsches aktuelles Passwort</string>
+    <string name="thank_you">Vielen Dank für Ihre Bewertung!</string>
+    <string name="new_file">Neuer Datensatz</string>
+    <string name="original_serial">Original-Seriennummer (Reg.)</string>
+    <string name="internal_serial">Interne Seriennummer</string>
+    <string name="recipient_name">Name des Empfängers</string>
+    <string name="subject">Betreff</string>
+    <string name="tracking_dates">Tracking-Daten</string>
+    <string name="received_gov">Erhalten (Reg.)</string>
+    <string name="delivered_sector">Gelieferter Sektor</string>
+    <string name="registered_app">In App registriert</string>
+    <string name="destination_sectors">Zielsektoren</string>
+    <string name="attachments">Anhänge</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galerie</string>
+    <string name="notes">Notizen des Direktors</string>
+    <string name="register_button">Dokument registrieren</string>
+    <string name="doc_details">Dokumentdetails</string>
+    <string name="internal_serial_label">Interne Serie</string>
+    <string name="original_serial_label">Originalserie</string>
+    <string name="recipient">Empfänger</string>
+    <string name="tracking_timeline">Tracking-Zeitplan</string>
+    <string name="received_gov_label">Erhalten (Reg.)</string>
+    <string name="registered_label">In App registriert</string>
+    <string name="delivered_label">An Sektor geliefert</string>
+    <string name="doc_not_found">Dokument nicht gefunden</string>
+    <string name="sector_dashboard">Sektor-Dashboard</string>
+    <string name="file_tracker">DATEI-TRACKER</string>
+    <string name="view_director">Direktor (Start)</string>
+    <string name="view_sector">Sektoransicht</string>
+    <string name="analytics">Statistiken</string>
+    <string name="priority_distribution">Prioritätsverteilung</string>
+    <string name="sector_overview">Sektorübersicht</string>
+    <string name="no_data_yet">Noch keine Daten</string>
+    <string name="status_breakdown">Statusübersicht</string>
+    <string name="cumulative_completions">Kumulative Abschlüsse</string>
+    <string name="top_sectors">Top-Sektoren</string>
+    <string name="other">Andere</string>
+    <string name="not_enough_data">Noch nicht genug Daten</string>
+
+    <string name="sector_educational_affairs">Schulangelegenheiten</string>
+    <string name="sector_planning">Planung</string>
+    <string name="sector_orientation">Orientierung</string>
+    <string name="sector_buildings">Gebäude</string>
+    <string name="sector_mail_writing">Korrespondenz (D.K.)</string>
+    <string name="sector_finance_main">Finanzen</string>
+    <string name="sector_information_system">Informationssystem</string>
+    <string name="sector_exams">Prüfungen</string>
+    <string name="sector_legal_affairs">Rechtsangelegenheiten, Kommunikation &amp; Partnerschaft</string>
+    <string name="sector_hr_management">Personalverwaltung</string>
+    <string name="sector_inspection">Inspektion</string>
+    <string name="sector_security">Sicherheit</string>
+    <string name="sector_admin">Verwaltung</string>
+    <string name="sector_operations">Betrieb</string>
+    <string name="sector_general">Allgemein</string>
+    <string name="sector_technical">Technik</string>
+
+    <string name="doc_track">DocTrack</string>
+    <string name="documents">Dokumente</string>
+    <string name="security">Sicherheit</string>
+    <string name="user_info">Direktor - 20. Apr. 2026</string>
+    <string name="user_initials">DR</string>
+    <string name="total">Gesamt</string>
+    <string name="processed">Verarbeitet</string>
+    <string name="done">Erledigt</string>
+    <string name="pending">Ausstehend</string>
+    <string name="search_hint">Serie oder Betreff suchen...</string>
+    <string name="all">Alle</string>
+    <string name="general_category">Allgemein</string>
+    <string name="receiver">Empfänger</string>
+    <string name="recent_files">NEUESTE DATEIEN</string>
+    <string name="file_id_1">26-0001 - 10. Apr.</string>
+    <string name="file_title_1">Jährliche Budgetprüfung</string>
+    <string name="file_sectors_1">Finanzen - Verwaltung - Recht</string>
+    <string name="confirmed_1_of_3">1 von 3 bestätigt</string>
+    <string name="file_id_2">26-0002 - 12. Apr.</string>
+    <string name="file_title_2">Gerätewartung</string>
+    <string name="file_sectors_2">Technik - Betrieb</string>
+    <string name="confirmed_2_of_2">2 von 2 bestätigt</string>
+    <string name="sent_today">HEUTE GESENDET</string>
+    <string name="serial_auto_assigned">Seriennummer wird automatisch vergeben: 26-0005</string>
+    <string name="save_file">DATEI SPEICHERN</string>
+    <string name="infrastructure_upgrade_hint">Infrastruktur-Upgrade-Plan</string>
+    <string name="urgency">DRINGLICHKEIT</string>
+    <string name="directors_note">DIREKTORS NOTIZ</string>
+    <string name="note_hint">Budgetzuteilung vor der\nDonnerstags-Sitzung validieren...</string>
+    <string name="send_to_sectors">AN SEKTOREN SENDEN</string>
+    <string name="attach_or_scan">Dokument anhängen oder scannen</string>
+
+    <string name="source_prefecture">Präfektur</string>
+    <string name="source_academy">Akademie</string>
+    <string name="source_government">Regierung</string>
+    <string name="source_directorate">Direktion</string>
+    <string name="source_health_delegation">Gesundheitsdelegation</string>
+    <string name="source_ministry">Ministerium</string>
+    <string name="source_other">Andere</string>
+    <string name="source_label">Quelle</string>
+    <string name="custom_source_hint">Benutzerdefinierten Quellennamen eingeben</string>
+    <string name="source_error">Bitte geben Sie die Quelle ein</string>
+
+    <string name="edit_success">Dokument erfolgreich aktualisiert ✓</string>
+    <string name="delete_confirm_title">Dokument löschen</string>
+    <string name="delete_confirm_msg">Dieses Dokument löschen? Diese Aktion kann nicht rückgängig gemacht werden</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="update_button">Dokument aktualisieren</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="forgot_password">Passwort vergessen?</string>
+    <string name="reset_info">0000 eingeben, um Passwort zurückzusetzen</string>
+    <string name="password_changed">Passwort erfolgreich geändert</string>
+    <string name="security_alert">Sicherheitswarnung</string>
+    <string name="security_desc">Ihr Kontopasswort wurde gerade geändert. Wenn Sie dies nicht waren, kontaktieren Sie bitte den Support.</string>
+    <string name="copyright">© 2025 File Tracker. Alle Rechte vorbehalten.</string>
+    <string name="export_data">Daten exportieren (Archiv)</string>
+    <string name="export_excel">Nach Excel exportieren</string>
+    <string name="no_records_to_export">Keine Datensätze zum Exportieren</string>
+    <string name="export_success">Daten erfolgreich exportiert</string>
+    <string name="export_error">Fehler beim Exportieren der Daten</string>
+    <string name="opening_file">Datei wird geöffnet...</string>
+    <string name="wipe_data">Alle Daten löschen</string>
+    <string name="wipe_data_desc">Alle Datensätze und Anhänge werden dauerhaft gelöscht</string>
+    <string name="wipe_confirm_title">Sind Sie sicher?</string>
+    <string name="wipe_confirm_msg">Dadurch werden alle Dokumente und Fotos dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="wipe_success">Alle Daten wurden gelöscht</string>
+    <string name="help_faq">Hilfe / FAQ</string>
+    <string name="search_faq">FAQ durchsuchen...</string>
+
+    <!-- FAQ Content -->
+    <string name="faq_q_what_is">Was ist File Tracker?</string>
+    <string name="faq_a_what_is">Eine digitale Dokumentenmanagement-App für Verwaltungspersonal in marokkanischen Bildungseinrichtungen. Sie ersetzt papierbasierte Protokolle durch ein modernes, organisiertes System zur Verfolgung offizieller Dokumente.</string>
+
+    <string name="faq_q_who_can_use">Wer kann File Tracker nutzen?</string>
+    <string name="faq_a_who_can_use">Nur autorisiertes Verwaltungspersonal. Der Zugriff ist durch ein vom Administrator festgelegtes und verwaltetes Passwort geschützt.</string>
+
+    <string name="faq_q_languages">Welche Sprachen unterstützt die App?</string>
+    <string name="faq_a_languages">Arabisch (mit RTL-Layout), Französisch, Englisch, Deutsch und Spanisch. Die gesamte Benutzeroberfläche wechselt Sprache und Richtung.</string>
+
+    <string name="faq_q_register">Wie registriere ich ein neues Dokument?</string>
+    <string name="faq_a_register">Öffnen Sie die App, tippen Sie auf „Dokument registrieren“ und füllen Sie die staatliche Seriennummer, die interne Seriennummer, den Absender (Akademie, Präfektur, Ministerium usw.), den Betreff, die Prioritätsstufe, die Zielabteilung, die Daten und den Namen des Empfängers aus und fügen Sie optional Fotos oder ein PDF bei.</string>
+
+    <string name="faq_q_priority">Was ist der Unterschied zwischen normaler und dringender Priorität?</string>
+    <string name="faq_a_priority">Normale Dokumente folgen der Standardbearbeitung. Dringende Dokumente werden in der gesamten App rot hervorgehoben – im Dashboard, im Kalender und in den Abteilungsansichten –, damit das Personal sie sofort identifizieren und bearbeiten kann.</string>
+
+    <string name="faq_q_attachments">Kann ich Dateien an einen Dokumentendatensatz anhängen?</string>
+    <string name="faq_a_attachments">Ja. Sie können Fotos oder PDF-Dateien beim Registrieren oder Bearbeiten eines Dokuments anhängen.</string>
+
+    <string name="faq_q_find_date">Wie finde ich ein Dokument von einem bestimmten Datum?</string>
+    <string name="faq_a_find_date">Gehen Sie zur Kalenderansicht, tippen Sie auf ein beliebiges Datum, und alle an diesem Tag registrierten Dokumente werden angezeigt. Dringende werden rot angezeigt, normale grün.</string>
+
+    <string name="faq_q_dashboard_show">Was zeigt das Dashboard an?</string>
+    <string name="faq_a_dashboard_show">Der Startbildschirm zeigt die Gesamtzahl der heute registrierten Dokumente, wie viele dringend und wie viele normal sind. Durch Antippen der jeweiligen Zähler wird die Dokumentenliste entsprechend gefiltert.</string>
+
+    <string name="faq_q_sector_dash">Was ist das Sektor-Dashboard?</string>
+    <string name="faq_a_sector_dash">Es organisiert Dokumente nach Abteilungen (z. B. Bildungsangelegenheiten, Planung, Finanzen), sodass Abteilungsleiter schnell alle ihnen zugewiesenen Dokumente sehen können.</string>
+
+    <string name="faq_q_security">Wie wird die App gesichert?</string>
+    <string name="faq_a_security">Die App erfordert ein Passwort zum Anmelden. Nur autorisiertes Personal kann darauf zugreifen. Der Administrator kann das Passwort jederzeit in den Einstellungen ändern.</string>
+
+    <string name="faq_q_forgot_pw">Was passiert, wenn ich das Passwort vergesse?</string>
+    <string name="faq_a_forgot_pw">Wenden Sie sich an Ihren Administrator. Das Passwort kann vom Administrator über den Einstellungsbildschirm zurückgesetzt werden.</string>
+
+    <string name="faq_q_change_lang">Wie ändere ich die Sprache?</string>
+    <string name="faq_a_change_lang">Gehen Sie zu den Einstellungen und wählen Sie Ihre bevorzugte Sprache aus. Die App wechselt sofort, einschließlich der Layoutrichtung für Arabisch.</string>
+
+    <string name="faq_q_export">Kann ich Dokumentendatensätze exportieren?</string>
+    <string name="faq_a_export">Ja. In den Einstellungen können Sie alle Datensätze in eine Excel-Datei exportieren.</string>
+
+    <string name="faq_q_dark_mode">Unterstützt die App den Dunkelmodus?</string>
+    <string name="faq_a_dark_mode">Ja. Sie können in den Einstellungen zwischen dunklen und hellen Themen wechseln.</string>
+
+    <string name="faq_q_notifications">Wie aktiviere oder deaktiviere ich Benachrichtigungen?</string>
+    <string name="faq_a_notifications">Schalten Sie Benachrichtigungen im Einstellungsbildschirm ein oder aus.</string>
+</resources>
